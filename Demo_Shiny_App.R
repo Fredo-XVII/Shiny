@@ -11,7 +11,7 @@ library(ggplot2)
 
 rsconnect::setAccountInfo(name='fredoxvii',
                           token='B402329ACE6C89A4A67D989A7685ED75',
-                          secret='aNZvdhgiqNcARzaSFUt1spgCp/3Y570qQBC2zTor')
+                          secret='XXXXXX')
 
 # Deploy the App
 rsconnect::deployApp(getwd())
