@@ -21,7 +21,13 @@ ui <- fluidPage(
       selectInput(inputId = "x", 
                   label = "X-axis:",
                   choices = c("imdb_rating", "imdb_num_votes", "critics_score", "audience_score", "runtime"), 
-                  selected = "critics_score")
+                  selected = "critics_score"),
+      
+      # Select variable for z-axis: Color
+      selectInput(inputId = "z",
+                  label = "Color by:",
+                  choices = c("title_type", "genre", "mpaa_rating","critics_rating", "audience_rating"),
+                  selected = "mpaa_rating")
     ),
     
     # Output: Show scatterplot --------------------------------------
@@ -36,7 +42,7 @@ server <- function(input, output) {
 
   # Create scatterplot object the plotOutput function is expecting --
   output$scatterplot <- renderPlot({
-    ggplot(data = movies, aes_string(x = input$x, y = input$y)) +
+    ggplot(data = movies, aes_string(x = input$x, y = input$y, color = input$z)) +
       geom_point()
   })
 }

@@ -31,7 +31,7 @@ server <- function(input, output, session) {
   data <- reactive({
     req(nrow(rv$data) > 0)
     rv$data
-  })
+  }) %>% debounce()
   
   # Summarize data
   output$summary <- renderPrint({

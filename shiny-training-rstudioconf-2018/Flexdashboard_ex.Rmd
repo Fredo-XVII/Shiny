@@ -1,0 +1,45 @@
+---
+title: "Untitled"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(ggplot2)
+datasets::airquality
+
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+ggplot(datasets::airquality,
+       aes(x = Solar.R, y = Ozone, col = as.factor(Temp))) +
+  geom_point()
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+ggplot(datasets::airquality,
+       aes(x = Day, y = Temp, col = as.factor(Month), group = as.factor(Month))) +
+  geom_line()
+```
+
+### Chart C
+
+```{r}
+
+```
+

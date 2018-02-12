@@ -14,7 +14,7 @@ ui <- fluidPage(
 # Define server logic -----------------------------------------------
 server <- function(input, output, session) {
   output$value <- renderText({
-    0
+  0
   })
 }
 

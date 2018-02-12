@@ -24,6 +24,7 @@ server <- function(input, output, session) {
   onRestore(function(state) {
     vals$sum <- state$values$currentSum
   })
+  
   setBookmarkExclude("add")
   
   observeEvent(input$add, {

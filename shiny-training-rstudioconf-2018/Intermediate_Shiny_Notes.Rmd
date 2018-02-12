@@ -1,0 +1,108 @@
+---
+title: "Intermediate Shiny Notebook"
+output: html_notebook
+---
+
+# Day 1 
+
+## Topic #1 - Intro
+
+trick - shinyapp() - gives you a basic format for shiny app.
+2 file system - Add Global.R file, gets executed before the ui.R, and server.R. Such as loading datasets, or things that need to be only done once.
+
+## Topic #2 - Reactivity
+
+req(input$input_name) - function avoids an error if the input is NULL
+Add () after reactive fucntion names to call the data/object.
+
+- Reactive work flow for example -
+Added Input - checkboxGroupInput
+Created Conductor - movie subset
+Created 2 outputs - renderPlot, renderText
+
+## Topic #3 - Implementation
+
+observe() - reactive endpoint. You can use to see the value held by a reactive function.
+  ex. observe({ print(input$name) }) - will print the value of name currently.
+Reactive variables don't have "input" or "output" in front when initialized
+Update functions - learn more about.
+
+
+## Topic #4 - Understanding UI 
+
+Lots of html goodies
+college scorecard
+
+## Topic #5 - Advanced Reactivety 
+
+videos - effective reactive programming 
+Upload file code - for store selection test and control App.
+req() - can have multiple things that need to check for errors.
+freezeReactiveValue(input, "xvar") - when you have renderUI.
+
+# Day 2
+
+## Topic #6 - Modules
+
+snippets - can be added - Tools -> Global Options -> Code -> Edit Snippet button
+... in side of tagList() is where the Shiny code goes.
+
+*** plotOutput("plot", click = "click") - tracks the number of clicks on a plot ***
+remove () to give all the values in the future instead of current reactive value.
+result$data() - to get the list out of a reactive.
+
+
+## Topic #7 - Bookmarking
+
+bookmarking allows you to share what you are looking at on the App with others, but with all the input selection the same.
+3 step process:
+  -> request - wrap in function
+  -> bookmarkButton() - add bookmark to UI
+  -> add parameter to shinyApp() - enableBookmarking = "url"
+* NOTE: 
+  -> best practice is to add to Global.R file if you use the 2 file system. 
+  -> to save file use enableBookmarking = "server", saves the file to disk.
+  
+## Topic #8 - Troubleshooting
+
+debugging code:
+  print/cat/str
+  renderPrint()
+  cat(file = stderr(), ...)
+  browser() - more dependable than breakpoint
+  shinyjs::logjs()
+  
+  The debugger:
+  breakpoints - use breakpoints in different places for places to debug.
+
+  react log:
+  gives you a visual representation of the reactivity. an options setting.
+  
+  in production - sanitize your errors  
+
+
+## Topic #9 - Dashboarding
+
+Live Updates:
+  reactiveFileReader() - file on disk
+  reactivePoll() - against databases.
+  
+UI:
+  
+## Question and answer
+
+User info - 
+  Persistent data storage in Shiny apps - Dean Attali
+  packages for interactive plots - 
+  
+
+
+
+  
+
+
+
+
+
+
+

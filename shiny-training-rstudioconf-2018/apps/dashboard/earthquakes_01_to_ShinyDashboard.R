@@ -8,27 +8,29 @@ library(shinydashboard)
 earthquakes <- read.csv("earthquakes.csv", stringsAsFactors = FALSE)
 earthquakes$time <- lubridate::parse_date_time(earthquakes$time, orders="ymd HMS")
 
-ui <- fluidPage(
-  titlePanel("USGS Earthquake Explorer"),
-  sidebarLayout(
-    sidebarPanel(
-      dateRangeInput("dates", "Date range",
-        start = as.Date(min(earthquakes$time)),
-        end = as.Date(max(earthquakes$time)),
-        min = as.Date(min(earthquakes$time)),
-        max = as.Date(max(earthquakes$time))
-      ),
-      actionButton("reset_dates", "Reset date range")
-    ),
-    mainPanel(
-      p("Number of quakes:", textOutput("count", inline = TRUE)),
-      p("Median magnitude:", textOutput("median", inline = TRUE)),
-      p("Mean time between quakes:", textOutput("mtbq", inline = TRUE)),
-      leafletOutput("map"),
-      plotOutput("scatter"),
-      plotOutput("mag_hist")
-    )
+ui <- dashboardPage(
+  dashboardHeader("USGS Earthquake Explorer"),
+  dashboardSidebar(
+    dateRangeInput("dates", "Date range",
+                   start = as.Date(min(earthquakes$time)),
+                   end = as.Date(max(earthquakes$time)),
+                   min = as.Date(min(earthquakes$time)),
+                   max = as.Date(max(earthquakes$time))
+    )),
+  actionButton("reset_dates", "Reset date range")
+),
+
+dashboardBody(
+  fluidRow(
+    p("Number of quakes:", textOutput("count", inline = TRUE)),
+    p("Median magnitude:", textOutput("median", inline = TRUE)),
+    p("Mean time between quakes:", textOutput("mtbq", inline = TRUE)),
+    leafletOutput("map"),
+    plotOutput("scatter"),
+    plotOutput("mag_hist")
   )
+)
+)
 )
 
 server <- function(input, output, session) {

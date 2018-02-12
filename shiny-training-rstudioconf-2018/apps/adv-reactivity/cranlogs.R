@@ -11,6 +11,7 @@ ui <- fluidPage(
       textInput("packages", "Package names (comma separated)"),
       actionButton("update", "Update")
     ),
+    
     mainPanel(
       plotOutput("plot")
     )
@@ -21,8 +22,8 @@ ui <- fluidPage(
 server <- function(input, output, session) {
   
   # Parses comma-separated string into a proper vector
-  packages <- reactive({
-    strsplit(input$packages, " *, *")[[1]]
+  packages <- eventReactive({input$update, {
+    strsplit(input$packages, " *, *")[[1]]}
   })
   
   # Daily downloads

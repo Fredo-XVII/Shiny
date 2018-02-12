@@ -10,7 +10,7 @@ load("movies.Rdata")
 ui <- fluidPage(
   
   # Application title -----------------------------------------------
-  titlePanel("Movie browser"),
+  titlePanel("Movie browser - without modules"),
   
   # Sidebar layout with a input and output definitions --------------
   sidebarLayout(
@@ -63,22 +63,7 @@ ui <- fluidPage(
       # Show data table ---------------------------------------------
       checkboxInput(inputId = "show_data",
                     label = "Show data table",
-                    value = TRUE),
-      
-      # Horizontal line for visual separation -----------------------
-      hr(),
-      
-      # Select which types of movies to plot ------------------------
-      checkboxGroupInput(inputId = "selected_type",
-                         label = "Select movie type(s):",
-                         choices = c("Documentary", "Feature Film", "TV Movie"),
-                         selected = "Feature Film"),
-      
-      # Random selection of data ------------------------------------
-      numericInput(inputId = "n_samp",
-                   label = "Sample Size:",
-                   min = 1, max = nrow(movies), 
-                   value = 50) 
+                    value = TRUE)
       
     ),
     
@@ -86,60 +71,99 @@ ui <- fluidPage(
     mainPanel(
       
       # Show scatterplot --------------------------------------------
-      plotOutput(outputId = "scatterplot"),
-      br(),        # a little bit of visual separation
+      tabsetPanel(id = "movies", 
+                  tabPanel("Documentaries", 
+                           plotOutput("scatterplot_doc"),
+                           DT::dataTableOutput("moviestable_doc")),
+                  tabPanel("Feature Films", 
+                           plotOutput("scatterplot_feature"),
+                           DT::dataTableOutput("moviestable_feature")),
+                  tabPanel("TV Movies", 
+                           plotOutput("scatterplot_tv"),
+                           DT::dataTableOutput("moviestable_tv"))
+      )
       
-      # Print number of obs plotted ---------------------------------
-      uiOutput(outputId = "n"),
-      br(), br(),    # a little bit of visual separation
-
-      # Show data table ---------------------------------------------
-      DT::dataTableOutput(outputId = "moviestable")
     )
   )
 )
 
 # Define server function required to create the scatterplot ---------
-server <- function(input, output) {
+server <- function(input, output, session) {
   
-  # Create a subset of data filtering for selected title types ------
-  movies_subset <- reactive({
-    req(input$selected_type) # ensure availablity of value before proceeding
-    filter(movies, title_type %in% input$selected_type)
+  # Create subsets for various title types --------------------------
+  docs <- reactive({
+    filter(movies, title_type == "Documentary")
   })
   
-  movies_sample <- reactive({
-    sample_n(movies_subset(), input$n_samp)
+  features <- reactive({
+    filter(movies, title_type == "Feature Film")
   })
   
-  # Create scatterplot object the plotOutput function is expecting --
-  output$scatterplot <- renderPlot({
-    ggplot(data = movies_sample(), aes_string(x = input$x, y = input$y,
-                                     color = input$z)) +
+  tvs <- reactive({
+    filter(movies, title_type == "TV Movie")
+  })
+  
+  
+  # Scatterplot for docs --------------------------------------------
+  output$scatterplot_doc <- renderPlot({
+    ggplot(data = docs(), aes_string(x = input$x, y = input$y, color = input$z)) +
       geom_point(alpha = input$alpha, size = input$size) +
       labs(x = toTitleCase(str_replace_all(input$x, "_", " ")),
            y = toTitleCase(str_replace_all(input$y, "_", " ")),
-           color = toTitleCase(str_replace_all(input$z, "_", " ")))
+           color = toTitleCase(str_replace_all(input$z, "_", " "))
+      )
   })
   
-  # Print number of movies plotted ----------------------------------
-  output$n <- renderUI({
-    types <- movies_subset()$title_type %>% 
-      factor(levels = input$selected_type) 
-    counts <- table(types)
-    
-    HTML(paste("There are", counts, input$selected_type, "movies in this dataset. <br>"))
+  # Scatterplot for features ----------------------------------------
+  output$scatterplot_feature <- renderPlot({
+    ggplot(data = features(), aes_string(x = input$x, y = input$y, color = input$z)) +
+      geom_point(alpha = input$alpha, size = input$size) +
+      labs(x = toTitleCase(str_replace_all(input$x, "_", " ")),
+           y = toTitleCase(str_replace_all(input$y, "_", " ")),
+           color = toTitleCase(str_replace_all(input$z, "_", " "))
+      )    
   })
   
-  # Print data table if checked -------------------------------------
-  output$moviestable <- DT::renderDataTable(
+  # Scatterplot for tvs ---------------------------------------------
+  output$scatterplot_tv <- renderPlot({
+    ggplot(data = tvs(), aes_string(x = input$x, y = input$y, color = input$z)) +
+      geom_point(alpha = input$alpha, size = input$size) +
+      labs(x = toTitleCase(str_replace_all(input$x, "_", " ")),
+           y = toTitleCase(str_replace_all(input$y, "_", " ")),
+           color = toTitleCase(str_replace_all(input$z, "_", " "))
+      )    
+  })
+  
+  # Table for docs --------------------------------------------------
+  output$moviestable_doc <- DT::renderDataTable(
     if(input$show_data){
-      DT::datatable(data = movies_subset()[, 1:7], 
+      DT::datatable(data = docs()[, 1:7], 
                     options = list(pageLength = 10), 
                     rownames = FALSE)
     }
   )
+  
+  # Table for features ----------------------------------------------
+  output$moviestable_feature <- DT::renderDataTable(
+    if(input$show_data){
+      DT::datatable(data = features()[, 1:7], 
+                    options = list(pageLength = 10), 
+                    rownames = FALSE)
+    }
+  )  
+  
+  # Table for tvs ---------------------------------------------------
+  output$moviestable_tv <- DT::renderDataTable(
+    if(input$show_data)
+      DT::datatable(data = tvs()[, 1:7],
+                    options = list(pageLength = 10),
+                    rownames = FALSE
+                    
+      )
+  )
+  
 }
 
-# Run the application -----------------------------------------------
+
+# Run the app ------------------------------------------------------
 shinyApp(ui = ui, server = server)
