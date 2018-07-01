@@ -25,7 +25,7 @@ The key's randomart image is:
 |       .=.       |
 +-----------------+
 
-sudo cat /root/.ssh/id_rsa.pub
+sudo cat /root/.ssh/id_rsa.pub; cat ~/.ssh/id_rsa.pub
 
 ####CREATE THE GIT REPO IN THE SHINY SERVER DIRECTORY####
 https://stackoverflow.com/questions/17581379/git-clone-without-project-folder
