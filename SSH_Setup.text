@@ -1,0 +1,44 @@
+# SSH Key password
+Code: ssh-keygen
+Enter enter on password (normally no pwd given)
+
+# Setting up ssh key for the root directory of srv/shiny-server AND GitHub:
+
+[cloud-user@analyticsistergenerator .ssh]$ sudo ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (/root/.ssh/id_rsa):
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again: (leave this blank)
+Your identification has been saved in /root/.ssh/id_rsa.
+Your public key has been saved in /root/.ssh/id_rsa.pub.
+The key fingerprint is: XXXX
+The key's randomart image is:
++--[ RSA 2048]----+
+|            .    |
+|       .   +     |
+|      . O B      |
+|     . @ * o     |
+|    o + E        |
+|     + . .       |
+|        o .      |
+|       . +       |
+|       .=.       |
++-----------------+
+
+sudo cat /root/.ssh/id_rsa.pub
+
+####CREATE THE GIT REPO IN THE SHINY SERVER DIRECTORY####
+https://stackoverflow.com/questions/17581379/git-clone-without-project-folder
+sudo git init .
+sudo git remote add origin git@git.co.com:org/repo.git
+
+####Deleting Repo, first remove origin, then delete folder####
+git remote remove origin  "note: no ssh path needed."
+From <https://stackoverflow.com/questions/16330404/how-to-remove-remote-origin-from-git-repo/16330711> 
+
+Sudo rm -rf .git
+
+#### update local on openstack what is on master in github ####
+
+http://dont-be-afraid-to-commit.readthedocs.io/en/latest/git/commandlinegit.html?highlight=git%20clone
+sudo git pull
