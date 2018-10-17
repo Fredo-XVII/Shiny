@@ -3,6 +3,7 @@ Anything Shiny
 
 # Docs
 > http://docs.rstudio.com/shinyapps.io/Storage.html#Storage
+> http://docs.rstudio.com/shiny-server/#quick-start
 
 ## Customize Shiny Server
  - config: https://support.rstudio.com/hc/en-us/articles/214771447-Shiny-Server-Administrator-s-Guide
