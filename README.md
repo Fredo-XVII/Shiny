@@ -13,3 +13,8 @@ Anything Shiny
  - log file processing example: https://www.r-bloggers.com/log-file-analysis-with-r/
  - Docker + Shiny + Centos: https://github.com/keberwein/docker_shiny-server_centos7/blob/master/Dockerfile
  - Shiny User data reference: https://shiny.rstudio.com/articles/client-data.html
+
+## Docker
+ - rocker - Rstudio + Shiny: https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/README.md
+ 
+ 
