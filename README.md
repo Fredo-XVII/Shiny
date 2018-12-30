@@ -17,4 +17,5 @@ Anything Shiny
 ## Docker
  - rocker - Rstudio + Shiny: https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/README.md
  
- 
+## Packaging Shiny Apps
+ - https://www.r-bloggers.com/packaging-shiny-applications-a-deep-dive/
