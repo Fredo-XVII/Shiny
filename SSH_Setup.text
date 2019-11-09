@@ -4,7 +4,7 @@ Enter enter on password (normally no pwd given)
 
 # Setting up ssh key for the root directory of srv/shiny-server AND GitHub:
 
-[cloud-user@analyticsistergenerator .ssh]$ sudo ssh-keygen
+[cloud-user@openstackserver .ssh]$ sudo ssh-keygen
 Generating public/private rsa key pair.
 Enter file in which to save the key (/root/.ssh/id_rsa):
 Enter passphrase (empty for no passphrase):
