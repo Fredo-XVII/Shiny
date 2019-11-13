@@ -1,3 +1,4 @@
+# The pictures go in a www folder that sits next to the app.R file.
 # UI - SIDE *******************************************************************
 ui <- fluidPage(
   # Browser Options -----------------------------------------------------------
@@ -14,6 +15,6 @@ ui <- fluidPage(
       src = "logo.png",
       height = 100,
       width = 100
-      ), "Store's Repack Forecast"),
-    windowTitle = "Store's Repack Forecast"),
+      ), "Shiny App Title"),
+    windowTitle = "Shiny App Title"),
   br(),
